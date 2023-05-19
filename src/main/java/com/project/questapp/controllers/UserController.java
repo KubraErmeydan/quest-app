@@ -27,6 +27,15 @@ public class UserController {
 
         return userRepository.save(newUser);
     }
+    @GetMapping("/{userId}")
+    public User getOneUser(@PathVariable Long userId){
+        return userRepository.findById(userId).orElseThrow(()->new RuntimeException("User not found"));
+    }
+
+    @DeleteMapping("/{userId}")
+    public void deleteOneUser(@PathVariable Long userId){
+        userRepository.deleteById(userId);
+    }
 
 
 }
