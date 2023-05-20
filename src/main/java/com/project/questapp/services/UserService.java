@@ -30,6 +30,18 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
+    public User updateOneUser(User newUser,Long userId){
+        User user = userRepository.findById(userId).orElse(null);
+        if (user==null){
+            throw new RuntimeException("Kayıtlı kullanıcı bulunamadı.");
+        }
+        user.setUserName(newUser.getUserName());
+        user.setPassword(newUser.getPassword());
+        user.setAvatar(newUser.getAvatar());
+        userRepository.save(user);
+        return user;
+    }
+
     public User getOneUser(Long userId ){
         User user =userRepository.findById(userId).orElse(null);
         if (user ==null){throw new RuntimeException("Kullanıcı bulunamadı..");
