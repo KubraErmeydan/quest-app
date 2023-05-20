@@ -4,6 +4,7 @@ import com.project.questapp.models.User;
 import com.project.questapp.repos.UserRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
@@ -37,12 +38,11 @@ public class UserService {
     }
 
     public void deleteById(Long userId){
-        try {
-            userRepository.deleteById(userId);
-        }catch (RuntimeException e){
+        User user= userRepository.findById(userId).orElse(null);
+        if(user==null) {
             System.out.println("User "+ userId+ " bulunamadı.");
-            System.out.println(e);
-        }
+        }else{
+        userRepository.delete(user); }
     }
 
 
